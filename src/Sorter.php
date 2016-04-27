@@ -11,12 +11,12 @@ class Sorter {
     /**
      * @var array
      */
-    protected $items = [];
+    protected $items = array();
 
     /**
      * @var array
      */
-    protected $refuses = [];
+    protected $refuses = array();
 
     /**
      * @var int|null

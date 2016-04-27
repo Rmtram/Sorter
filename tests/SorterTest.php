@@ -14,26 +14,26 @@ class SorterTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    private $items = [
-        [
+    private $items = array(
+        array(
             'id' => 2,
             'name' => 'abc',
             'age' => 19,
             'created' => '2015-10-14'
-        ],
-        [
+        ),
+        array(
             'id' => 1,
             'name' => 'bca',
             'age' => 14,
             'created' => '2012-10-14'
-        ],
-        [
+        ),
+        array(
             'id' => 3,
             'name' => 'cba',
             'age' => 21,
             'created' => '2015-10-15'
-        ]
-    ];
+        )
+    );
 
     /**
      * @covers Sorter::make
@@ -42,7 +42,7 @@ class SorterTest extends \PHPUnit_Framework_TestCase
     public function testIntegerAsc()
     {
         $items = Sorter::make($this->items)
-            ->sort(['id' => 'asc']);
+            ->sort(array('id' => 'asc'));
         $this->assertEquals(1, $items[0]['id']);
         $this->assertEquals(2, $items[1]['id']);
         $this->assertEquals(3, $items[2]['id']);
@@ -55,7 +55,7 @@ class SorterTest extends \PHPUnit_Framework_TestCase
     public function testIntegerDesc()
     {
         $items = Sorter::make($this->items)
-            ->sort(['id' => 'desc']);
+            ->sort(array('id' => 'desc'));
         $this->assertEquals(3, $items[0]['id']);
         $this->assertEquals(2, $items[1]['id']);
         $this->assertEquals(1, $items[2]['id']);
@@ -68,7 +68,7 @@ class SorterTest extends \PHPUnit_Framework_TestCase
     public function testStringAsc()
     {
         $items = Sorter::make($this->items)
-            ->sort(['name' => 'asc']);
+            ->sort(array('name' => 'asc'));
         $this->assertEquals('abc', $items[0]['name']);
         $this->assertEquals('bca', $items[1]['name']);
         $this->assertEquals('cba', $items[2]['name']);
@@ -81,7 +81,7 @@ class SorterTest extends \PHPUnit_Framework_TestCase
     public function testStringDesc()
     {
         $items = Sorter::make($this->items)
-            ->sort(['name' => 'desc']);
+            ->sort(array('name' => 'desc'));
         $this->assertEquals('cba', $items[0]['name']);
         $this->assertEquals('bca', $items[1]['name']);
         $this->assertEquals('abc', $items[2]['name']);
@@ -94,7 +94,7 @@ class SorterTest extends \PHPUnit_Framework_TestCase
     public function testDateAsc()
     {
         $items = Sorter::make($this->items)
-            ->sort(['created' => 'asc']);
+            ->sort(array('created' => 'asc'));
         $this->assertEquals('2012-10-14', $items[0]['created']);
         $this->assertEquals('2015-10-14', $items[1]['created']);
         $this->assertEquals('2015-10-15', $items[2]['created']);
@@ -107,7 +107,7 @@ class SorterTest extends \PHPUnit_Framework_TestCase
     public function testDateDesc()
     {
         $items = Sorter::make($this->items)
-            ->sort(['created' => 'desc']);
+            ->sort(array('created' => 'desc'));
         $this->assertEquals('2015-10-15', $items[0]['created']);
         $this->assertEquals('2015-10-14', $items[1]['created']);
         $this->assertEquals('2012-10-14', $items[2]['created']);
@@ -121,7 +121,7 @@ class SorterTest extends \PHPUnit_Framework_TestCase
     {
         $items = Sorter::make($this->items)
             ->refuse('name')
-            ->sort(['id' => 'desc']);
+            ->sort(array('id' => 'desc'));
         $this->assertArrayNotHasKey('name', $items[0]);
         $this->assertArrayNotHasKey('name', $items[1]);
         $this->assertArrayNotHasKey('name', $items[2]);
@@ -134,8 +134,8 @@ class SorterTest extends \PHPUnit_Framework_TestCase
     public function testRefuseWithArray()
     {
         $items = Sorter::make($this->items)
-            ->refuse(['name', 'age'])
-            ->sort(['id' => 'desc']);
+            ->refuse(array('name', 'age'))
+            ->sort(array('id' => 'desc'));
         $this->assertArrayNotHasKey('name', $items[0]);
         $this->assertArrayNotHasKey('name', $items[1]);
         $this->assertArrayNotHasKey('name', $items[2]);
@@ -153,7 +153,7 @@ class SorterTest extends \PHPUnit_Framework_TestCase
     {
         $items = Sorter::make($this->items)
             ->refuse('id')
-            ->sort(['id' => 'desc']);
+            ->sort(array('id' => 'desc'));
         $this->assertEquals('abc', $items[0]['name']);
         $this->assertEquals('bca', $items[1]['name']);
         $this->assertEquals('cba', $items[2]['name']);
@@ -171,7 +171,7 @@ class SorterTest extends \PHPUnit_Framework_TestCase
     {
         $items = Sorter::make($this->items)
             ->limit(1)
-            ->sort(['id' => 'asc']);
+            ->sort(array('id' => 'asc'));
         $this->assertCount(1, $items);
     }
 
@@ -185,7 +185,7 @@ class SorterTest extends \PHPUnit_Framework_TestCase
         $items = Sorter::make($this->items)
             ->limit(2)
             ->offset(2)
-            ->sort(['id' => 'asc']);
+            ->sort(array('id' => 'asc'));
         $this->assertEquals(2, $items[0]['id']);
         $this->assertEquals(3, $items[1]['id']);
     }
