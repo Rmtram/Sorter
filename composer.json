@@ -1,0 +1,40 @@
+{
+  "name": "rmtram/sorter",
+  "type": "library",
+  "description": "Simple sort of multiple arrays.",
+  "keywords": [
+    "sort",
+    "multi sort",
+    "multiple sort"
+  ],
+  "homepage": "http://rmtram.github.io/Sorter",
+  "support": {
+    "issues": "https://github.com/Rmtram/Sorter/issues",
+    "source": "https://github.com/Rmtram/Sorter"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Rmtram",
+      "email": "rmtram95@gmail.com"
+    }
+  ],
+  "require": {
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Rmtram\\Sorter\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "classmap": [
+      "tests/"
+    ],
+    "psr-4": {
+      "Rmtram\\Sorter\\TestCase\\": "tests/"
+    }
+  }
+}
