@@ -105,14 +105,14 @@ class Sorter {
             return $items;
         }
 
-        $tmp = [];
+        $tmp = array();
         foreach ($items as $item) {
             foreach ($option as $key => $val) {
                 $tmp[$key][] = $item[$key];
             }
         }
 
-        $args = [];
+        $args = array();
 
         foreach ($option as $key => $val) {
             $args[$key] = $tmp[$key];
@@ -140,7 +140,7 @@ class Sorter {
      */
     protected function resetRefuse()
     {
-        $this->refuses = [];
+        $this->refuses = array();
     }
 
     /**
