@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Rmtram\Sorter;
 
@@ -6,35 +7,53 @@ namespace Rmtram\Sorter;
  * Class Sorter
  * @package Rmtram\Sorter
  */
-class Sorter {
+class Sorter
+{
+    /**
+     * @var array
+     */
+    private $items = [];
 
     /**
      * @var array
      */
-    protected $items = array();
-
-    /**
-     * @var array
-     */
-    protected $refuses = array();
+    private $select = [];
 
     /**
      * @var int|null
      */
-    protected $limit;
+    private $limit;
 
     /**
      * @var int|null
      */
-    protected $offset;
+    private $offset;
 
     /**
      * @param array $items
      * @return Sorter
      */
-    public static function make(array $items)
+    public static function make(array $items): self
     {
         return new self($items);
+    }
+
+    /**
+     * @param array $items
+     * @param array $orders
+     * @param array $select
+     * @param int|null $offset
+     * @param int|null $limit
+     * @return array
+     */
+    public static function runSort(
+        array $items,
+        array $orders,
+        array $select = [],
+        ?int $offset = null,
+        ?int $limit = null
+    ): array {
+        return (new self($items))->select($select)->offset($offset)->limit($limit)->sort($orders);
     }
 
     /**
@@ -46,87 +65,68 @@ class Sorter {
     }
 
     /**
-     * @param int|null $int
+     * @param int|null $limit
      * @return $this
      */
-    public function limit($int = null)
+    public function limit(?int $limit = null): self
     {
-        if (filter_var($int, FILTER_VALIDATE_INT) || is_null($int)) {
-            $this->limit = $int;
-        }
+        $this->limit = $limit;
         return $this;
     }
 
     /**
-     * @param int|null $int
+     * @param int|null $offset
      * @return $this
      */
-    public function offset($int = null)
+    public function offset(?int $offset = null): self
     {
-        if (is_null($int)) {
-            $this->offset = $int;
-            return $this;
-        }
-        if (filter_var($int, FILTER_VALIDATE_INT) && $int > 0) {
-            $this->offset = --$int;
-        }
+        $this->offset = $offset;
         return $this;
     }
 
     /**
-     * @param array|string|int $key
+     * @param array $attributes
      * @return $this
      */
-    public function refuse($key)
+    public function select(array $attributes): self
     {
-        if (is_array($key)) {
-            foreach ($key as $k) {
-                $this->refuses[$k] = true;
-            }
-        } else if (is_string($key) || is_int($key)) {
-            $this->refuses[$key] = true;
+        if (!empty($attributes)) {
+            $attributes = array_flip($attributes);
         }
+        $this->select = $attributes;
         return $this;
     }
 
     /**
-     * @param array $option
+     * @param array $orders
      * @return array
      */
-    public function sort(array $option)
+    public function sort(array $orders): array
     {
-        $items = $this->items;
+        $items = $this->filterItems($this->items);
+        $orders = $this->filterOrders($orders);
 
-        $this->filter($items, $option);
-
-        $this->resetRefuse();
-
-        if (empty($option) || empty($items)) {
+        if (empty($orders) || empty($items)) {
             return $items;
         }
 
-        $tmp = array();
-        foreach ($items as $item) {
-            foreach ($option as $key => $val) {
-                $tmp[$key][] = $item[$key];
-            }
-        }
-
-        $args = array();
-
-        foreach ($option as $key => $val) {
-            $args[$key] = $tmp[$key];
+        $args = [];
+        foreach ($orders as $key => $val) {
+            $args[] = array_column($items, $key);
             $args[] = strtolower($val) === 'desc' ? SORT_DESC : SORT_ASC;
         }
-
         $args[] = &$items;
-        call_user_func_array('array_multisort', $args);
+
+        array_multisort(...$args);
 
         return $this->slice($items);
     }
 
-
-    protected function slice(array $items)
+    /**
+     * @param array $items
+     * @return array
+     */
+    private function slice(array $items): array
     {
         if (is_null($this->limit) && is_null($this->offset)) {
             return $items;
@@ -136,37 +136,28 @@ class Sorter {
     }
 
     /**
-     * reset refuse field.
+     * @param array $items
+     * @return array
      */
-    protected function resetRefuse()
+    private function filterItems(array $items): array
     {
-        $this->refuses = array();
+        if (empty($this->select)) {
+            return $items;
+        }
+        return array_map(function ($it) {
+            return array_intersect_key($it, $this->select);
+        }, $items);
     }
 
     /**
-     * @param array $items
-     * @param array $option
-     * @return void
+     * @param array $orders
+     * @return array
      */
-    protected function filter(array &$items, array &$option)
+    private function filterOrders(array $orders): array
     {
-        if (empty($this->refuses)) {
-            return;
+        if (empty($orders) || empty($this->select)) {
+            return $orders;
         }
-
-        $keys = array_keys($this->refuses);
-
-        foreach ($keys as $key) {
-            if (isset($option[$key])) {
-                unset($option[$key]);
-            }
-            foreach ($items as &$item) {
-                if (isset($item[$key])) {
-                    unset($item[$key]);
-                }
-            }
-        }
-
+        return array_intersect_key($orders, $this->select);
     }
-
 }
