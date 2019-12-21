@@ -3,7 +3,7 @@
 Version](https://poser.pugx.org/rmtram/sorter/v/stable.png)](https://packagist.org/packages/rmtram/sorter)
 [![Total
 Downloads](https://poser.pugx.org/rmtram/sorter/downloads)](https://packagist.org/packages/rmtram/sorter)
-
+[![License](https://poser.pugx.org/rmtram/sorter/license)](https://packagist.org/packages/rmtram/sorter)
 
 ## Sorter
 
