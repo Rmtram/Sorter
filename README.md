@@ -26,16 +26,16 @@ Copy file: `src/Sorter.php`
 require '/path/to/Sorter.php';
 ```
 
-## Usage
+## Contents
 
-- Methods
-    - [static] [make(array $items)](#make)
-    - [static] [runSort(array $items, array $orders, $select = [], $offset = null, $limit = null)](#runSort)
-    - [sort(array $orders)](#sort)
-    - [select(array $attributes)](#select)
-    - [offset(int|null $int = null)](#offset)
-    - [limit(int|null $int = null)](#limit)
-    
+- [static] [make(array $items)](#make)
+- [static] [runSort(array $items, array $orders, $select = [], $offset = null, $limit = null)](#runSort)
+- [sort(array $orders)](#sort)
+- [select(array $attributes)](#select)
+- [offset(int|null $int = null)](#offset)
+- [limit(int|null $int = null)](#limit)
+
+## Methods
 
 #### make
 
@@ -66,6 +66,18 @@ $items = [
 $results = \Rmtram\Sorter\Sorter::runSort($items, ['id' => 'asc'], ['id'], 1, 1);
 
 var_dump($results);
+```
+
+- Result
+
+```
+array(1) {
+  [0]=>
+  array(1) {
+    ["id"]=>
+    int(2)
+  }
+}
 ```
 
 #### sort
@@ -336,6 +348,28 @@ array(5) {
 
 `Offset null === offset 0`
 
+**Important**
+
+Changed offset implementation.
+
+> Before
+
+```
+offset(0) => 0
+offset(1) => 0
+offset(2) => 1
+offset(3) => 2
+```
+
+> After
+
+```
+offset(0) => 0
+offset(1) => 1
+offset(2) => 2
+offset(3) => 3
+```
+
 - Source code
 
 ```php
@@ -356,17 +390,8 @@ var_dump($results);
 - Result
 
 ```
-array(2) {
+array(1) {
   [0]=>
-  array(3) {
-    ["id"]=>
-    int(3)
-    ["name"]=>
-    string(3) "ghi"
-    ["created_at"]=>
-    string(19) "2015-10-14 10:10:09"
-  }
-  [1]=>
   array(3) {
     ["id"]=>
     int(5)
@@ -418,7 +443,6 @@ array(1) {
 ## Support versions.
 
 - PHP
-    - 7.1
     - 7.2
     - 7.3
     - 7.4
