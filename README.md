@@ -5,12 +5,12 @@ Version](https://poser.pugx.org/rmtram/sorter/v/stable.png)](https://packagist.o
 Downloads](https://poser.pugx.org/rmtram/sorter/downloads)](https://packagist.org/packages/rmtram/sorter)
 [![License](https://poser.pugx.org/rmtram/sorter/license)](https://packagist.org/packages/rmtram/sorter)
 
-## Sorter
+# Sorter
 
 Simple sort of multiple arrays.
 
 
-## Install
+# Install
 
 ```
 $ composer require rmtram/sorter
@@ -26,7 +26,7 @@ Copy file: `src/Sorter.php`
 require '/path/to/Sorter.php';
 ```
 
-## Contents
+# Contents
 
 - [static] [make(array $items)](#make)
 - [static] [runSort(array $items, array $orders, $select = [], $offset = null, $limit = null)](#runSort)
@@ -35,9 +35,9 @@ require '/path/to/Sorter.php';
 - [offset(int|null $int = null)](#offset)
 - [limit(int|null $int = null)](#limit)
 
-## Methods
+# Methods
 
-#### make
+## make
 
 - Create instance.
 
@@ -53,7 +53,7 @@ $sorter = Rmtram\Sorter\Sorter::make($items);
 
 ```
 
-#### runSort
+## runSort
 
 ```php
 $items = [
@@ -80,9 +80,9 @@ array(1) {
 }
 ```
 
-#### sort
+## sort
 
-##### Single (id => asc)
+### Single (id => asc)
 
 - Source code
 
@@ -142,7 +142,7 @@ array(4) {
 }
 ```
 
-##### Multiple
+### Multiple
 
 - Source code
 
@@ -238,9 +238,9 @@ array(6) {
 }
 ```
 
-#### select
+## select
 
-##### Single
+### Single
 
 - Source code
 
@@ -284,7 +284,7 @@ array(4) {
 }
 ```
 
-##### Multiple
+### Multiple
 
 - Source code
 
@@ -344,7 +344,7 @@ array(5) {
 }
 ```
 
-#### offset
+## offset
 
 `Offset null === offset 0`
 
@@ -403,7 +403,7 @@ array(1) {
 }
 ```
 
-#### limit
+## limit
 
 `No limit in the case of null`
 
@@ -440,14 +440,14 @@ array(1) {
 }
 ```
 
-## Support versions.
+# Support versions.
 
 - PHP
     - 7.2
     - 7.3
     - 7.4
 
-## LICENSE
+# LICENSE
 
 The MIT License (MIT)
 
