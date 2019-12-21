@@ -8,18 +8,6 @@
 
 * add .travis.yml
 
-### First
-
-* first commit
-
-### Initial
-
-* Initial commit
-
-### Php
-
-* php 5.3 also be corresponding.
-
 ### Update
 
 * update Sorter.php replace [] => array()
