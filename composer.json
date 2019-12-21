@@ -7,10 +7,15 @@
     "multi sort",
     "multiple sort"
   ],
-  "homepage": "http://rmtram.github.io/Sorter",
+  "homepage": "https://github.com/Rmtram/Sorter",
   "support": {
     "issues": "https://github.com/Rmtram/Sorter/issues",
     "source": "https://github.com/Rmtram/Sorter"
+  },
+  "scripts": {
+    "test": "./vendor/bin/phpunit",
+    "lint": "./vendor/bin/php-cs-fixer fix --dry-run --diff -v",
+    "lintfix": "./vendor/bin/php-cs-fixer fix --diff -v"
   },
   "license": "MIT",
   "authors": [
@@ -20,9 +25,11 @@
     }
   ],
   "require": {
+    "php": ">=7.2"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.0"
+    "phpunit/phpunit": "~8.0",
+    "friendsofphp/php-cs-fixer": "^2.16"
   },
   "autoload": {
     "psr-4": {

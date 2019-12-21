@@ -1,15 +1,16 @@
 [![Build Status](https://travis-ci.org/Rmtram/Sorter.svg)](https://travis-ci.org/Rmtram/Sorter)
-[![Total
-Downloads](https://poser.pugx.org/rmtram/sorter/downloads)](https://packagist.org/packages/rmtram/sorter)
 [![Latest Stable
 Version](https://poser.pugx.org/rmtram/sorter/v/stable.png)](https://packagist.org/packages/rmtram/sorter)
+[![Total
+Downloads](https://poser.pugx.org/rmtram/sorter/downloads)](https://packagist.org/packages/rmtram/sorter)
+[![License](https://poser.pugx.org/rmtram/sorter/license)](https://packagist.org/packages/rmtram/sorter)
 
-## Sorter
+# Sorter
 
 Simple sort of multiple arrays.
 
 
-## Install
+# Install
 
 ```
 $ composer require rmtram/sorter
@@ -17,25 +18,26 @@ $ composer require rmtram/sorter
 
 OR
 
-[Source Download](https://github.com/Rmtram/Sorter/archive/v1.0.0.zip)
+[Source Download](https://github.com/Rmtram/Sorter/archive/v2.0.0.zip)
 
-Copy file => `src/Sorter.php`
+Copy file: `src/Sorter.php`
 
 ```
 require '/path/to/Sorter.php';
 ```
 
-## Usage
+# Contents
 
-- Methods
-    - make(array $items)
-    - sort(array $option)
-    - refuse(int|string|array $key)
-    - limit(int|null $int = null)
-    - offset(int|null $int = null)
-    
+- [static] [make(array $items)](#make)
+- [static] [runSort(array $items, array $orders, $select = [], $offset = null, $limit = null)](#runSort)
+- [sort(array $orders)](#sort)
+- [select(array $attributes)](#select)
+- [offset(int|null $int = null)](#offset)
+- [limit(int|null $int = null)](#limit)
 
-#### make(array $items)
+# Methods
+
+## make
 
 - Create instance.
 
@@ -47,13 +49,11 @@ $items = [
     ['id' => 3, 'name' => 'ghi', 'created_at' => '2015-10-14 10:10:09']
 ];
 
-$sorter = \Rmtram\Sorter\Sorter::make($items);
+$sorter = Rmtram\Sorter\Sorter::make($items);
 
 ```
 
-#### sort(array $option)
-
-- Single option. (id => asc)
+## runSort
 
 ```php
 $items = [
@@ -63,11 +63,45 @@ $items = [
     ['id' => 3, 'name' => 'ghi', 'created_at' => '2015-10-14 10:10:09']
 ];
 
-$results = \Rmtram\Sorter\Sorter::make($items)->sort(['id' => 'asc']);
+$results = Rmtram\Sorter\Sorter::runSort($items, ['id' => 'asc'], ['id'], 1, 1);
 
 var_dump($results);
+```
 
-// result
+- Result
+
+```
+array(1) {
+  [0]=>
+  array(1) {
+    ["id"]=>
+    int(2)
+  }
+}
+```
+
+## sort
+
+### Single (id => asc)
+
+- Source code
+
+```php
+$items = [
+    ['id' => 1, 'name' => 'abc', 'created_at' => '2015-10-14 10:10:01'],
+    ['id' => 2, 'name' => 'def', 'created_at' => '2015-10-14 10:10:05'],
+    ['id' => 5, 'name' => 'mno', 'created_at' => '2015-10-14 10:10:39'],
+    ['id' => 3, 'name' => 'ghi', 'created_at' => '2015-10-14 10:10:09']
+];
+
+$results = Rmtram\Sorter\Sorter::make($items)->sort(['id' => 'asc']);
+
+var_dump($results);
+```
+
+- Result
+
+```
 array(4) {
   [0]=>
   array(3) {
@@ -108,7 +142,9 @@ array(4) {
 }
 ```
 
-- Multiple option.
+### Multiple
+
+- Source code
 
 ```php
 $items = [
@@ -120,15 +156,18 @@ $items = [
     ['id' => 6, 'name' => 'o', 'age' => 15, 'created_at' => '2015-10-10 10:10:05']
 ];
 
-$results = \Rmtram\Sorter\Sorter::make($items)->sort([
+$results = Rmtram\Sorter\Sorter::make($items)->sort([
     'age'        => 'asc',
     'created_at' => 'asc',
     'id'         => 'desc'
 ]);
 
 var_dump($results);
+```
 
-// result
+- Result
+
+```
 array(6) {
   [0]=>
   array(4) {
@@ -199,9 +238,11 @@ array(6) {
 }
 ```
 
-#### refuse(int|string|array $key)
+## select
 
-- String
+### Single
+
+- Source code
 
 ```php
 $items = [
@@ -211,40 +252,146 @@ $items = [
     ['id' => 3, 'name' => 'ghi', 'created_at' => '2015-10-14 10:10:09']
 ];
 
-$results = \Rmtram\Sorter\Sorter::make($items)->refuse('age')->sort(['id' => 'asc']);
+$results = Rmtram\Sorter\Sorter::make($items)->refuse('age')->sort(['id' => 'asc']);
 
 var_dump($results);
+```
 
-// result
+- Result
+
+```
 array(4) {
   [0]=>
-  array(3) {
+  array(1) {
+    ["id"]=>
+    int(1)
+  }
+  [1]=>
+  array(1) {
+    ["id"]=>
+    int(2)
+  }
+  [2]=>
+  array(1) {
+    ["id"]=>
+    int(3)
+  }
+  [3]=>
+  array(1) {
+    ["id"]=>
+    int(5)
+  }
+}
+```
+
+### Multiple
+
+- Source code
+
+```php
+$items = [
+    ['id' => 1, 'name' => 'abc', 'created_at' => '2015-10-14 10:10:01'],
+    ['id' => 1, 'name' => 'bac', 'created_at' => '2015-10-14 10:10:01'],
+    ['id' => 2, 'name' => 'def', 'created_at' => '2015-10-14 10:10:05'],
+    ['id' => 5, 'name' => 'mno', 'created_at' => '2015-10-14 10:10:39'],
+    ['id' => 3, 'name' => 'ghi', 'created_at' => '2015-10-14 10:10:09']
+];
+
+$sortedItems = Rmtram\Sorter\Sorter::make($items)->select(['id', 'name'])->sort(['id' => 'asc', 'name' => 'desc']);
+
+var_dump($sortedItems);
+```
+
+- Result
+
+```
+array(5) {
+  [0]=>
+  array(2) {
+    ["id"]=>
+    int(1)
+    ["name"]=>
+    string(3) "bac"
+  }
+  [1]=>
+  array(2) {
     ["id"]=>
     int(1)
     ["name"]=>
     string(3) "abc"
-    ["created_at"]=>
-    string(19) "2015-10-14 10:10:01"
   }
-  [1]=>
-  array(3) {
+  [2]=>
+  array(2) {
     ["id"]=>
     int(2)
     ["name"]=>
     string(3) "def"
-    ["created_at"]=>
-    string(19) "2015-10-14 10:10:05"
   }
-  [2]=>
-  array(3) {
+  [3]=>
+  array(2) {
     ["id"]=>
     int(3)
     ["name"]=>
     string(3) "ghi"
-    ["created_at"]=>
-    string(19) "2015-10-14 10:10:09"
   }
-  [3]=>
+  [4]=>
+  array(2) {
+    ["id"]=>
+    int(5)
+    ["name"]=>
+    string(3) "mno"
+  }
+}
+```
+
+## offset
+
+`Offset null === offset 0`
+
+**!!! Important !!!**
+
+Changed offset implementation.
+
+> Before
+
+```
+offset(0) => 0
+offset(1) => 0
+offset(2) => 1
+offset(3) => 2
+```
+
+> After
+
+```
+offset(0) => 0
+offset(1) => 1
+offset(2) => 2
+offset(3) => 3
+```
+
+- Source code
+
+```php
+$items = [
+    ['id' => 1, 'name' => 'abc', 'created_at' => '2015-10-14 10:10:01'],
+    ['id' => 2, 'name' => 'def', 'created_at' => '2015-10-14 10:10:05'],
+    ['id' => 5, 'name' => 'mno', 'created_at' => '2015-10-14 10:10:39'],
+    ['id' => 3, 'name' => 'ghi', 'created_at' => '2015-10-14 10:10:09']
+];
+
+$results = Rmtram\Sorter\Sorter::make($items)
+    ->offset(3)
+    ->sort(['id' => 'asc']);
+
+var_dump($results);
+```
+
+- Result
+
+```
+array(1) {
+  [0]=>
   array(3) {
     ["id"]=>
     int(5)
@@ -254,62 +401,14 @@ array(4) {
     string(19) "2015-10-14 10:10:39"
   }
 }
-
 ```
 
-- Array
-
-```php
-$items = [
-    ['id' => 1, 'name' => 'abc', 'created_at' => '2015-10-14 10:10:01'],
-    ['id' => 2, 'name' => 'def', 'created_at' => '2015-10-14 10:10:05'],
-    ['id' => 5, 'name' => 'mno', 'created_at' => '2015-10-14 10:10:39'],
-    ['id' => 3, 'name' => 'ghi', 'created_at' => '2015-10-14 10:10:09']
-];
-
-$results = \Rmtram\Sorter\Sorter::make($items)
-    ->refuse(['age', 'created_at'])
-    ->sort(['id' => 'asc']);
-
-var_dump($results);
-
-// result
-array(4) {
-  [0]=>
-  array(2) {
-    ["id"]=>
-    int(1)
-    ["name"]=>
-    string(3) "abc"
-  }
-  [1]=>
-  array(2) {
-    ["id"]=>
-    int(2)
-    ["name"]=>
-    string(3) "def"
-  }
-  [2]=>
-  array(2) {
-    ["id"]=>
-    int(3)
-    ["name"]=>
-    string(3) "ghi"
-  }
-  [3]=>
-  array(2) {
-    ["id"]=>
-    int(5)
-    ["name"]=>
-    string(3) "mno"
-  }
-}
-```
-
-#### limit(int|null $int = null)
+## limit
 
 `No limit in the case of null`
 
+- Source code
+
 ```php
 $items = [
     ['id' => 1, 'name' => 'abc', 'created_at' => '2015-10-14 10:10:01'],
@@ -318,13 +417,16 @@ $items = [
     ['id' => 3, 'name' => 'ghi', 'created_at' => '2015-10-14 10:10:09']
 ];
 
-$results = \Rmtram\Sorter\Sorter::make($items)
+$results = Rmtram\Sorter\Sorter::make($items)
     ->limit(1)
     ->sort(['id' => 'asc']);
 
 var_dump($results);
+```
 
-// result
+- Result
+
+```
 array(1) {
   [0]=>
   array(3) {
@@ -338,58 +440,14 @@ array(1) {
 }
 ```
 
-#### offset(int|null $int = null)
-
-`Offset null === offset 0`
-
-```php
-$items = [
-    ['id' => 1, 'name' => 'abc', 'created_at' => '2015-10-14 10:10:01'],
-    ['id' => 2, 'name' => 'def', 'created_at' => '2015-10-14 10:10:05'],
-    ['id' => 5, 'name' => 'mno', 'created_at' => '2015-10-14 10:10:39'],
-    ['id' => 3, 'name' => 'ghi', 'created_at' => '2015-10-14 10:10:09']
-];
-
-$results = \Rmtram\Sorter\Sorter::make($items)
-    ->offset(3)
-    ->sort(['id' => 'asc']);
-
-var_dump($results);
-
-// result
-array(2) {
-  [0]=>
-  array(3) {
-    ["id"]=>
-    int(3)
-    ["name"]=>
-    string(3) "ghi"
-    ["created_at"]=>
-    string(19) "2015-10-14 10:10:09"
-  }
-  [1]=>
-  array(3) {
-    ["id"]=>
-    int(5)
-    ["name"]=>
-    string(3) "mno"
-    ["created_at"]=>
-    string(19) "2015-10-14 10:10:39"
-  }
-}
-```
-
-## Support versions.
+# Support versions.
 
 - PHP
-    - 5.3
-    - 5.4
-    - 5.5
-    - 5.6
-    - 7.0
-- HHVM
+    - 7.2
+    - 7.3
+    - 7.4
 
-## LICENSE
+# LICENSE
 
 The MIT License (MIT)
 
