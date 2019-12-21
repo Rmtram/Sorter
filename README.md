@@ -49,7 +49,7 @@ $items = [
     ['id' => 3, 'name' => 'ghi', 'created_at' => '2015-10-14 10:10:09']
 ];
 
-$sorter = \Rmtram\Sorter\Sorter::make($items);
+$sorter = Rmtram\Sorter\Sorter::make($items);
 
 ```
 
@@ -63,7 +63,7 @@ $items = [
     ['id' => 3, 'name' => 'ghi', 'created_at' => '2015-10-14 10:10:09']
 ];
 
-$results = \Rmtram\Sorter\Sorter::runSort($items, ['id' => 'asc'], ['id'], 1, 1);
+$results = Rmtram\Sorter\Sorter::runSort($items, ['id' => 'asc'], ['id'], 1, 1);
 
 var_dump($results);
 ```
@@ -94,7 +94,7 @@ $items = [
     ['id' => 3, 'name' => 'ghi', 'created_at' => '2015-10-14 10:10:09']
 ];
 
-$results = \Rmtram\Sorter\Sorter::make($items)->sort(['id' => 'asc']);
+$results = Rmtram\Sorter\Sorter::make($items)->sort(['id' => 'asc']);
 
 var_dump($results);
 ```
@@ -156,7 +156,7 @@ $items = [
     ['id' => 6, 'name' => 'o', 'age' => 15, 'created_at' => '2015-10-10 10:10:05']
 ];
 
-$results = \Rmtram\Sorter\Sorter::make($items)->sort([
+$results = Rmtram\Sorter\Sorter::make($items)->sort([
     'age'        => 'asc',
     'created_at' => 'asc',
     'id'         => 'desc'
@@ -252,7 +252,7 @@ $items = [
     ['id' => 3, 'name' => 'ghi', 'created_at' => '2015-10-14 10:10:09']
 ];
 
-$results = \Rmtram\Sorter\Sorter::make($items)->refuse('age')->sort(['id' => 'asc']);
+$results = Rmtram\Sorter\Sorter::make($items)->refuse('age')->sort(['id' => 'asc']);
 
 var_dump($results);
 ```
@@ -297,7 +297,7 @@ $items = [
     ['id' => 3, 'name' => 'ghi', 'created_at' => '2015-10-14 10:10:09']
 ];
 
-$sortedItems = \Rmtram\Sorter\Sorter::make($items)->select(['id', 'name'])->sort(['id' => 'asc', 'name' => 'desc']);
+$sortedItems = Rmtram\Sorter\Sorter::make($items)->select(['id', 'name'])->sort(['id' => 'asc', 'name' => 'desc']);
 
 var_dump($sortedItems);
 ```
@@ -380,7 +380,7 @@ $items = [
     ['id' => 3, 'name' => 'ghi', 'created_at' => '2015-10-14 10:10:09']
 ];
 
-$results = \Rmtram\Sorter\Sorter::make($items)
+$results = Rmtram\Sorter\Sorter::make($items)
     ->offset(3)
     ->sort(['id' => 'asc']);
 
@@ -417,7 +417,7 @@ $items = [
     ['id' => 3, 'name' => 'ghi', 'created_at' => '2015-10-14 10:10:09']
 ];
 
-$results = \Rmtram\Sorter\Sorter::make($items)
+$results = Rmtram\Sorter\Sorter::make($items)
     ->limit(1)
     ->sort(['id' => 'asc']);
 
